@@ -1,10 +1,10 @@
-import { Logger } from '@nestjs/common'
+import { Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule } from '@nestjs/swagger'
 
 import { AppModule } from './app.module'
-import { getSwaggerConfig } from './config'
+import { getCorsConfig, getSwaggerConfig, getValidationPipeConfig } from './config'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
@@ -12,10 +12,9 @@ async function bootstrap() {
 	const config = app.get(ConfigService)
 	const logger = new Logger()
 
-	app.enableCors({
-		origin: config.getOrThrow<string>('ALLOWED_ORIGIN').split(','),
-		credentials: true,
-	})
+	app.useGlobalPipes(new ValidationPipe(getValidationPipeConfig()))
+
+	app.enableCors(getCorsConfig(config))
 
 	const swaggerConfig = getSwaggerConfig()
 	const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
