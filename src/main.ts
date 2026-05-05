@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule } from '@nestjs/swagger'
 
+import { GrpcExceptionFilter } from '@shared/filters'
+
 import { AppModule } from './app.module'
 import { getCorsConfig, getSwaggerConfig, getValidationPipeConfig } from './config'
 
@@ -13,6 +15,8 @@ async function bootstrap() {
 	const logger = new Logger()
 
 	app.useGlobalPipes(new ValidationPipe(getValidationPipeConfig()))
+
+	app.useGlobalFilters(new GrpcExceptionFilter())
 
 	app.enableCors(getCorsConfig(config))
 
