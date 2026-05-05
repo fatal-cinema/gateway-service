@@ -1,20 +1,22 @@
+import { PROTO_PATHS } from '@fatal-cinema/contracts'
+import { AUTH_SERVICE_NAME, AUTH_V1_PACKAGE_NAME } from '@fatal-cinema/contracts/gen/auth'
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
 import { AuthController } from './auth.controller'
-import { AuthClientGrpc } from './auth.grpc'
+import { AuthGrpcClient } from './auth.grpc'
 
 @Module({
 	imports: [
 		ClientsModule.registerAsync([
 			{
-				name: 'AUTH_PACKAGE',
+				name: AUTH_SERVICE_NAME,
 				useFactory: (configService: ConfigService) => ({
 					transport: Transport.GRPC,
 					options: {
-						package: 'auth.v1',
-						protoPath: 'node_modules/@fatal-cinema/contracts/proto/auth/v1/auth.proto',
+						package: AUTH_V1_PACKAGE_NAME,
+						protoPath: PROTO_PATHS.AUTH,
 						url: configService.getOrThrow<string>('AUTH_GRPC_URL'),
 					},
 				}),
@@ -23,6 +25,6 @@ import { AuthClientGrpc } from './auth.grpc'
 		]),
 	],
 	controllers: [AuthController],
-	providers: [AuthClientGrpc],
+	providers: [AuthGrpcClient],
 })
 export class AuthModule {}
