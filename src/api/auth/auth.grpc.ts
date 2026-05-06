@@ -1,6 +1,8 @@
 import {
 	AUTH_SERVICE_NAME,
 	type AuthServiceClient,
+	type RefreshRequest,
+	type RefreshResponse,
 	type SendOtpRequest,
 	type SendOtpResponse,
 	type VerifyOtpRequest,
@@ -26,5 +28,9 @@ export class AuthGrpcClient implements OnModuleInit, AuthServiceClient {
 
 	verifyOtp(request: VerifyOtpRequest): Observable<VerifyOtpResponse> {
 		return this.authService.verifyOtp(request)
+	}
+
+	refresh(request: RefreshRequest): Observable<RefreshResponse> {
+		return this.authService.refresh(request)
 	}
 }
