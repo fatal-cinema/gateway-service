@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common'
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger'
 
+import { Public } from '@shared/decorators'
 import { HealthResponse } from '@shared/responses'
 
 import { AppService } from './app.service'
@@ -13,6 +14,7 @@ export class AppController {
 		summary: 'Welcome endpoint',
 		description: 'Return a simple API welcome message.',
 	})
+	@Public()
 	@Get()
 	getHello() {
 		return this.appService.getHello()
@@ -25,6 +27,7 @@ export class AppController {
 	@ApiOkResponse({
 		type: HealthResponse,
 	})
+	@Public()
 	@Get('health')
 	health() {
 		return this.appService.health()

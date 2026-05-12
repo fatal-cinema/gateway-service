@@ -1,10 +1,10 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
+import { ApiOperation } from '@nestjs/swagger'
 import type { Request, Response } from 'express'
 import { lastValueFrom } from 'rxjs'
 
-import { Authorized, Protected } from '@shared/decorators'
+import { Public } from '@shared/decorators'
 import { isDev } from '@shared/utils'
 
 import { AuthGrpcClient } from './auth.grpc'
@@ -21,6 +21,7 @@ export class AuthController {
 		summary: 'Send otp code',
 		description: 'Sends a verification code to user phone number or email.',
 	})
+	@Public()
 	@Post('otp/send')
 	@HttpCode(HttpStatus.OK)
 	async sendOtp(@Body() dto: SendOtpRequest) {
@@ -31,6 +32,7 @@ export class AuthController {
 		summary: 'Verify otp code',
 		description: 'Verifies the code sent to user phone number or email and returns a access token.',
 	})
+	@Public()
 	@Post('otp/verify')
 	@HttpCode(HttpStatus.OK)
 	async verifyOtp(@Body() dto: VerifyOtpRequest, @Res({ passthrough: true }) res: Response) {
@@ -51,6 +53,7 @@ export class AuthController {
 		summary: 'Refresh access token',
 		description: 'Renews access token using refresh token from cookies',
 	})
+	@Public()
 	@Post('refresh')
 	@HttpCode(HttpStatus.OK)
 	async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
@@ -73,6 +76,7 @@ export class AuthController {
 		summary: 'Logout',
 		description: 'Clears the refresh token cookie and logs the user out',
 	})
+	@Public()
 	@Post('logout')
 	@HttpCode(HttpStatus.OK)
 	async logout(@Res({ passthrough: true }) res: Response) {
@@ -85,11 +89,5 @@ export class AuthController {
 		})
 
 		return { ok: true }
-	}
-
-	@Protected()
-	@Get('account')
-	async getAccount(@Authorized() userId: string) {
-		return { id: userId }
 	}
 }
