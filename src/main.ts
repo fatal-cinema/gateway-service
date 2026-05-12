@@ -4,10 +4,10 @@ import { NestFactory } from '@nestjs/core'
 import { SwaggerModule } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
 
+import { getCorsConfig, getSwaggerConfig, getValidationPipeConfig } from '@config/.'
 import { GrpcExceptionFilter } from '@shared/filters'
 
 import { AppModule } from './app.module'
-import { getCorsConfig, getSwaggerConfig, getValidationPipeConfig } from './config'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)

@@ -23,6 +23,7 @@
     "@fatal-cinema/common": "^1.0.0",
     "@fatal-cinema/contracts": "^1.2.0",
     "@fatal-cinema/core": "^1.0.7",
+    "@fatal-cinema/passport": "^1.0.0",
     "@grpc/grpc-js": "^1.14.3",
     "@grpc/proto-loader": "^0.8.0",
     "@nestjs/common": "^11.0.1",

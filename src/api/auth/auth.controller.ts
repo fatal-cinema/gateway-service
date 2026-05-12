@@ -1,9 +1,10 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { ApiOperation } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 import type { Request, Response } from 'express'
 import { lastValueFrom } from 'rxjs'
 
+import { Authorized, Protected } from '@shared/decorators'
 import { isDev } from '@shared/utils'
 
 import { AuthGrpcClient } from './auth.grpc'
@@ -84,5 +85,11 @@ export class AuthController {
 		})
 
 		return { ok: true }
+	}
+
+	@Protected()
+	@Get('account')
+	async getAccount(@Authorized() userId: string) {
+		return { id: userId }
 	}
 }

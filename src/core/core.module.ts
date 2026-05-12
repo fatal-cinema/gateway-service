@@ -1,6 +1,8 @@
+import { PassportModule } from '@fatal-cinema/passport'
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 
+import { getPassportConfig } from '@config/.'
 import { IS_DEV_ENV } from '@shared/utils'
 
 @Module({
@@ -8,6 +10,10 @@ import { IS_DEV_ENV } from '@shared/utils'
 		ConfigModule.forRoot({
 			isGlobal: true,
 			ignoreEnvFile: !IS_DEV_ENV,
+		}),
+		PassportModule.registerAsync({
+			useFactory: getPassportConfig,
+			inject: [ConfigService],
 		}),
 	],
 })
