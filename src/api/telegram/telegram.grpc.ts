@@ -1,5 +1,9 @@
 import {
 	TELEGRAM_SERVICE_NAME,
+	TelegramCompleteRequest,
+	TelegramCompleteResponse,
+	TelegramConsumeRequest,
+	TelegramConsumeResponse,
 	TelegramInitResponse,
 	TelegramServiceClient,
 	TelegramVerifyRequest,
@@ -25,5 +29,13 @@ export class TelegramGrpcClient implements OnModuleInit, TelegramServiceClient {
 
 	telegramVerify(request: TelegramVerifyRequest): Observable<TelegramVerifyResponse> {
 		return this.telegramService.telegramVerify(request)
+	}
+
+	telegramComplete(request: TelegramCompleteRequest): Observable<TelegramCompleteResponse> {
+		return this.telegramService.telegramComplete(request)
+	}
+
+	telegramConsume(request: TelegramConsumeRequest): Observable<TelegramConsumeResponse> {
+		return this.telegramService.telegramConsume(request)
 	}
 }
